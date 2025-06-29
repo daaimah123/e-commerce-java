@@ -210,7 +210,8 @@ public class ECommerceMain {
             System.out.println("\nOptions:");
             System.out.println("1. Add product to cart");
             System.out.println("2. View product details");
-            System.out.println("3. Return to main menu");
+            System.out.println("3. Search Products");
+            System.out.println("4. Return to main menu");
             System.out.print("Enter your choice: ");
             
             try {
@@ -224,6 +225,9 @@ public class ECommerceMain {
                         viewProductDetails();
                         break;
                     case 3:
+                        searchProducts();
+                        break;
+                    case 4:
                         browsing = false; // Exit loop
                         break;
                     default:
@@ -271,6 +275,39 @@ public class ECommerceMain {
         } catch (IllegalArgumentException e) {
             // Validation errors from Product/Customer classes
             System.out.println("Could not add to cart: " + e.getMessage());
+        } catch (Exception e) {
+            // General exception for other issues
+            System.out.println("An error occurred while adding to cart. Please try again.");
+        }
+    }
+
+    private static void searchProducts(){
+        System.out.println("Enter product name to search");
+        List<Product> temProducts = new ArrayList<>(); 
+
+        try{
+            String productName = scanner.nextLine();
+            if(productName == null || productName.trim().isEmpty()){
+                System.out.println("Please enter a valid name");
+            }
+            else{
+                for(int i=0; i<products.size(); i++){
+                    if(products.get(i).getName().toLowerCase().contains(productName.toLowerCase())){
+                        temProducts.add(products.get(i));
+                    }
+                }
+
+                if(temProducts.size() == 0) 
+                    System.out.println("No products found matching your search");
+                else {
+                    for (Product product : temProducts) {
+                        product.displayDetails();
+                    }
+                }
+            }
+
+        } catch (IllegalArgumentException e){
+            System.out.println("Could not search the product");
         } catch (Exception e) {
             // General exception for other issues
             System.out.println("An error occurred while adding to cart. Please try again.");
