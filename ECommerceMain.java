@@ -462,7 +462,7 @@ public class ECommerceMain {
         int origOrderId = 0;
         int orderID = getIntegerInput();
         Order order = findOrderByID(orderID);
-        System.out.print("\nEnter an Order ID to see details (or 0 to go back): ");
+        System.out.print("Enter an Order ID to see details (or 0 to go back): ");
         try {
             origOrderId = orderID;
             if (orderID == 0) return;
@@ -481,7 +481,7 @@ public class ECommerceMain {
             System.out.println("⚠️ Internal error: Order reference is null.");
             return;
         }
-        System.out.print("\nWould you like to update the status of this order? (yes/no): ");
+        System.out.print("Would you like to update the status of this order? (yes/no): ");
         String updateChoice = scanner.nextLine().trim().toLowerCase();
         if (updateChoice.equals("yes") || updateChoice.equals("y")) {
             List<String> validStatuses = Arrays.asList("Pending", "Confirmed", "Processing", "Shipped", "Delivered", "Cancelled");
