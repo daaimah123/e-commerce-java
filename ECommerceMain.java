@@ -460,14 +460,14 @@ public class ECommerceMain {
             System.out.println(order);
         }
         int origOrderId = 0;
-        
+        int orderID = getIntegerInput();
+        Order order = findOrderByID(orderID);
         System.out.print("\nEnter an Order ID to see details (or 0 to go back): ");
         try {
-            int orderID = getIntegerInput();
             origOrderId = orderID;
             if (orderID == 0) return;
             
-            Order order = findOrderByID(orderID);
+
             if (order != null) {
                 order.displayOrderSummary();
             } else {
@@ -477,8 +477,6 @@ public class ECommerceMain {
             System.out.println("Error viewing order details: " + e.getMessage());
         }
 
-
-        Order order = findOrderByID(origOrderId);
         if (order == null) {
             System.out.println("⚠️ Internal error: Order reference is null.");
             return;
@@ -510,7 +508,6 @@ public class ECommerceMain {
             }
         }
 
-        // TODO: Add option to update order status (e.g., mark as shipped)
     }
     
     
