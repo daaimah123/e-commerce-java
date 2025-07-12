@@ -13,6 +13,7 @@
 .settings/         # Eclipse settings directory
 .vscode/           # VS Code settings (if not shared)
 *.swp              # Vim swap files
+out/
 
 # Build artifacts
 *.jar              # Compiled JAR files

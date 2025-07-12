@@ -1,9 +1,8 @@
 import com.ecommerce.Product;
 import com.ecommerce.Customer;
 import com.ecommerce.orders.Order;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
+import java.util.*;
 
 public class ECommerceMain {
     private static List<Product> products = new ArrayList<>();
@@ -497,13 +496,15 @@ public class ECommerceMain {
         for (Order order : orders) {
             System.out.println(order);
         }
-        
-        System.out.print("\nEnter an Order ID to see details (or 0 to go back): ");
+        int origOrderId = 0;
+        int orderID = getIntegerInput();
+        Order order = findOrderByID(orderID);
+        System.out.print("Enter an Order ID to see details (or 0 to go back): ");
         try {
-            int orderID = getIntegerInput();
+            origOrderId = orderID;
             if (orderID == 0) return;
             
-            Order order = findOrderByID(orderID);
+
             if (order != null) {
                 order.displayOrderSummary();
             } else {
@@ -512,7 +513,38 @@ public class ECommerceMain {
         } catch (Exception e) {
             System.out.println("Error viewing order details: " + e.getMessage());
         }
-        // TODO: Add option to update order status (e.g., mark as shipped)
+
+        if (order == null) {
+            System.out.println("⚠️ Internal error: Order reference is null.");
+            return;
+        }
+        System.out.print("Would you like to update the status of this order? (yes/no): ");
+        String updateChoice = scanner.nextLine().trim().toLowerCase();
+        if (updateChoice.equals("yes") || updateChoice.equals("y")) {
+            List<String> validStatuses = Arrays.asList("Pending", "Confirmed", "Processing", "Shipped", "Delivered", "Cancelled");
+            //"Pending", "Confirmed", "Processing", "Shipped", "Delivered", "Cancelled"
+
+            System.out.println("Available Status Options:");
+            for (int i = 0; i < validStatuses.size(); i++) {
+                System.out.println((i + 1) + ". " + validStatuses.get(i));
+            }
+
+            System.out.print("Enter the number for new status: ");
+            int statusChoice = getMenuChoiceInput(1, validStatuses.size());
+
+            if (statusChoice >= 1 && statusChoice <= validStatuses.size()) {
+                String newStatus = validStatuses.get(statusChoice - 1);
+                try {
+                    Objects.requireNonNull(order).setStatus(newStatus); // Assuming this internally validates transitions
+                    System.out.println("✅ Order status updated to: " + newStatus);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("❌ Failed to update status: " + e.getMessage());
+                }
+            } else {
+                System.out.println("❌ Invalid status choice. No changes made.");
+            }
+        }
+
     }
     
     
